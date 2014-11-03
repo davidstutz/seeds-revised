@@ -24,8 +24,6 @@ Note that all results published in [2] are based on an extended versionof the Be
 The extended version of the Berkeley Segmentation Benchmark will be published on GitHub [5]:
 
     [5] [https://github.com/davidstutz](https://github.com/davidstutz)
-    
-<img src="output/14037_contours.png?raw=true" style="width:100px" />
 
 ## Compile
 
