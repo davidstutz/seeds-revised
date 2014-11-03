@@ -1,6 +1,6 @@
 # SEEDS Revised
 
-Implementation of the superpixel algorithms called SEEDS [1] described in
+Implementation of the superpixel algorithm called SEEDS [1] described in
 
     [1] M. van den Bergh, X. Boix, G. Roig, B. de Capitani, L. van Gool.
         SEEDS: Superpixels extracted via energy-driven sampling.
@@ -12,7 +12,7 @@ If you use this code, please cite [1] and [2]:
         Superpixel Segmentation using Depth Information.
         Bachelor thesis, RWTH Aachen University, Aachen, Germany, 2014.
 
-Note that all results published in [2] are based on an extended versionof the Berkeley Segmentation Benchmark [3], the Berkeley Segmentation Dataset [3] and the NYU Depth Dataset [4].
+Note that all results published in [2] are based on an extended version of the Berkeley Segmentation Benchmark [3], the Berkeley Segmentation Dataset [3] and the NYU Depth Dataset [4].
 
     [3] P. Arbeláez, M. Maire, C. Fowlkes, J. Malik.
         Contour detection and hierarchical image segmentation.
@@ -91,7 +91,7 @@ Thorough documentation can be found within the code. The following example will 
     
     // Instantiate a new object for the given image.
     SEEDSRevisedMeanPixels seeds(image, superpixels, numberOfBins, neighborhoodSize, minimumConfidence, spatialWeight);
-
+    
     // Initializes histograms and labels.
     seeds.initialize();
     // Runs the given number of iterations at
