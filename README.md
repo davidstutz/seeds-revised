@@ -23,7 +23,7 @@ Note that all results published in [2] are based on an extended version of the B
 
 The extended version of the Berkeley Segmentation Benchmark will be published on GitHub [5]:
 
-    [5] [https://github.com/davidstutz](https://github.com/davidstutz)
+    [5] https://github.com/davidstutz
 
 ## Compile
 
