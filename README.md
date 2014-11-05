@@ -27,11 +27,7 @@ The extended version of the Berkeley Segmentation Benchmark will be published on
 
     [5] [https://github.com/davidstutz](https://github.com/davidstutz)
 
-![800 Superpixels - contours.](output/14037_contours.png?raw=true "800 Superpixels - contours.")
-![800 Superpixels - contours.](output/106024_contours.png?raw=true "800 Superpixels - contours.")
-![800 Superpixels - contours.](output/223061_contours.png?raw=true "800 Superpixels - contours.")
-![800 Superpixels - contours.](output/42049_contours.png?raw=true "800 Superpixels - contours.")
-![800 Superpixels - contours.](output/295087_contours.png?raw=true "800 Superpixels - contours.")
+![Example: several superpixel segmentations.](screenshot.png?raw=true "Example: several superpixel segmentations")
 
 ## Compile
 
