@@ -12,6 +12,8 @@ If you use this code, please cite [1] and [2]:
         Superpixel Segmentation using Depth Information.
         Bachelor thesis, RWTH Aachen University, Aachen, Germany, 2014.
 
+[2] is available online at [http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/](http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/).
+
 Note that all results published in [2] are based on an extended version of the Berkeley Segmentation Benchmark [3], the Berkeley Segmentation Dataset [3] and the NYU Depth Dataset [4].
 
     [3] P. Arbeláez, M. Maire, C. Fowlkes, J. Malik.
@@ -23,7 +25,13 @@ Note that all results published in [2] are based on an extended version of the B
 
 The extended version of the Berkeley Segmentation Benchmark will be published on GitHub [5]:
 
-    [5] https://github.com/davidstutz
+    [5] [https://github.com/davidstutz](https://github.com/davidstutz)
+
+![800 Superpixels - contours.](output/14037_contours.png?raw=true "800 Superpixels - contours.")
+![800 Superpixels - contours.](output/106024_contours.png?raw=true "800 Superpixels - contours.")
+![800 Superpixels - contours.](output/223061_contours.png?raw=true "800 Superpixels - contours.")
+![800 Superpixels - contours.](output/42049_contours.png?raw=true "800 Superpixels - contours.")
+![800 Superpixels - contours.](output/295087_contours.png?raw=true "800 Superpixels - contours.")
 
 ## Compile
 
@@ -91,7 +99,7 @@ Thorough documentation can be found within the code. The following example will 
     
     // Instantiate a new object for the given image.
     SEEDSRevisedMeanPixels seeds(image, superpixels, numberOfBins, neighborhoodSize, minimumConfidence, spatialWeight);
-    
+
     // Initializes histograms and labels.
     seeds.initialize();
     // Runs the given number of iterations at

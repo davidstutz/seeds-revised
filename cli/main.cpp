@@ -1,3 +1,71 @@
+/**
+ * Command line tool for using SEEDS Revised, an implementation of the superpixel
+ * algorithm proposed in [1] and evaluated in [2].
+ * 
+ *  [1] M. van den Bergh, X. Boix, G. Roig, B. de Capitani, L. van Gool.
+ *      SEEDS: Superpixels extracted via energy-driven sampling.
+ *      Proceedings of the European Conference on Computer Vision, pages 13–26, 2012.
+ *  [2] D. Stutz, A. Hermans, B. Leibe.
+ *      Superpixel Segmentation using Depth Information.
+ *      Bachelor thesis, RWTH Aachen University, Aachen, Germany, 2014.
+ * 
+ * [2] is available online at 
+ * 
+ *      http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/
+ * 
+ * **How to use the command line tool?**
+ * 
+ * Compile both the library in `/lib` as well as `cli/main.cpp` using CMake (see
+ * `README.md`). The provided options can be viewed using 
+ * 
+ *  $ ./bin/cli --help
+ *  Allowed options:
+ *   --help                          produce help message
+ *   --input arg                     the folder to process, may contain several 
+ *                                   images
+ *   --bins arg (=5)                 number of bins used for color histograms
+ *   --neighborhood arg (=1)         neighborhood size used for smoothing prior
+ *   --confidence arg (=0.100000001) minimum confidence used for block update
+ *   --iterations arg (=2)           iterations at each level
+ *   --spatial-weight arg (=0.25)    spatial weight
+ *   --superpixels arg (=400)        desired number of supüerpixels
+ *   --process                       show additional information while processing
+ *   --csv                           save segmentation as CSV file
+ *   --contour                       save contour image of segmentation
+ *   --mean                          save mean colored image of segmentation
+ *   --output arg (=output)          specify the output directory (default is 
+ *                                   ./output)
+ * 
+ * The code is published under the BSD 3-Clause:
+ * 
+ * Copyright (c) 2014, David Stutz
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 #include "SeedsRevised.h"
 #include "Tools.h"
 #include <opencv2/opencv.hpp>

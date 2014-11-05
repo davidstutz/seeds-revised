@@ -1,5 +1,5 @@
 /**
- * Implementation of the superpixel algorithms called SEEDS [1] described in
+ * Implementation of the superpixel algorithm called SEEDS [1] described in
  * 
  *  [1] M. van den Bergh, X. Boix, G. Roig, B. de Capitani, L. van Gool.
  *      SEEDS: Superpixels extracted via energy-driven sampling.
@@ -10,6 +10,10 @@
  *  [2] D. Stutz, A. Hermans, B. Leibe.
  *      Superpixel Segmentation using Depth Information.
  *      Bachelor thesis, RWTH Aachen University, Aachen, Germany, 2014.
+ * 
+ * [2] is available online at 
+ * 
+ *      http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/
  * 
  * Note that all results published in [2] are based on an extended version
  * of the Berkeley Segmentation Benchmark [3], the Berkeley Segmentation
