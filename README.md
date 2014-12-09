@@ -23,9 +23,7 @@ Note that all results published in [2] are based on an extended version of the B
         Indoor segmentation and support inference from RGBD images.
         Proceedings of the European Conference on Computer Vision, pages 746–760, 2012.
 
-The extended version of the Berkeley Segmentation Benchmark will be published on GitHub [5]:
-
-    [5] [https://github.com/davidstutz](https://github.com/davidstutz)
+The extended version of the Berkeley Segmentation Benchmark is available on GitHub: [https://github.com/davidstutz/extended-berkeley-segmentation-benchmark](https://github.com/davidstutz/extended-berkeley-segmentation-benchmark).
 
 ![Example: several superpixel segmentations.](screenshot.png?raw=true "Example: several superpixel segmentations")
 
