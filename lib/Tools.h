@@ -83,9 +83,9 @@ public:
     /**
      * Computes the actually number of superpixels generated.
      * 
-     * @param seeds
-     * @param rows
-     * @param cols
+     * @param SEEDSRevised seeds
+     * @param int rows
+     * @param int cols
      * @return
      */
     static int countSuperpixels(int** labels, int rows, int cols);
@@ -93,9 +93,9 @@ public:
     /**
      * Given the labels, relabels them in place.
      * 
-     * @param labels
-     * @param rows
-     * @param cols
+     * @param int** labels superpixel labels  (first dimension is x-axis)
+     * @param int rows
+     * @param int cols
      */
     static void relabel(int** labels, int rows, int cols);
 };
@@ -112,10 +112,10 @@ public:
     /**
      * Save labels to CSV file.
      * 
-     * @param labels
-     * @param rows
-     * @param cols
-     * @param path
+     * @param int** labels superpixel labels  (first dimension is x-axis)
+     * @param int
+     * @param int
+     * @param boost::filesystem::path path path to store CSV file
      */
     static void CSV(int** labels, int rows, int cols, boost::filesystem::path path);
 };
@@ -138,7 +138,7 @@ public:
      *     SLIC superpixels.
      *     Technical report, École Polytechnique Fédérale de Lausanne, 2010.
      * 
-     * @param int** labels superpixel labels
+     * @param int** labels superpixel labels (first dimension is x-axis)
      * @param cv::Mat image original image
      * @param int* rgb rgb color of contours
      * @return 
@@ -146,10 +146,20 @@ public:
     static cv::Mat contourImage(int** labels, const cv::Mat &image, int* bgr);
 
     /**
+     * Draws a colored label image where each label gets assigned a 
+     * random color.
+     * 
+     * @param int** labels superpixel labels (first dimension is x-axis)
+     * @param cv::Mat image original image
+     * @return
+     */
+    static cv::Mat labelImage(int** labels, const cv::Mat &image);
+    
+    /**
      * Compute a mean image, that is every superpixel is colored 
      * according to its mean color.
      * 
-     * @param int** labels superpixel labels
+     * @param int** labels superpixel labels (first dimension is x-axis)
      * @param image original image
      * @return 
      */

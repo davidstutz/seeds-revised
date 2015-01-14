@@ -29,9 +29,10 @@
  *   --iterations arg (=2)           iterations at each level
  *   --spatial-weight arg (=0.25)    spatial weight
  *   --superpixels arg (=400)        desired number of supüerpixels
- *   --process                       show additional information while processing
+ *   --verbose                       show additional information while processing
  *   --csv                           save segmentation as CSV file
  *   --contour                       save contour image of segmentation
+ *   --labels                        save label image of segmentation
  *   --mean                          save mean colored image of segmentation
  *   --output arg (=output)          specify the output directory (default is 
  *                                   ./output)
@@ -91,9 +92,10 @@ int main(int argc, const char** argv) {
         ("iterations", boost::program_options::value<int>()->default_value(2), "iterations at each level")
         ("spatial-weight", boost::program_options::value<float>()->default_value(0.25), "spatial weight")
         ("superpixels", boost::program_options::value<int>()->default_value(400), "desired number of supüerpixels")
-        ("process", "show additional information while processing")
+        ("verbose", "show additional information while processing")
         ("csv", "save segmentation as CSV file")
         ("contour", "save contour image of segmentation")
+        ("labels", "save label image of segmentation")
         ("mean", "save mean colored image of segmentation")
         ("output", boost::program_options::value<std::string>()->default_value("output"), "specify the output directory (default is ./output)");
 
@@ -120,9 +122,9 @@ int main(int argc, const char** argv) {
         return 1;
     }
     
-    bool process = false;
-    if (parameters.find("process") != parameters.end()) {
-        process = true;
+    bool verbose = false;
+    if (parameters.find("verbose") != parameters.end()) {
+        verbose = true;
     }
     
     std::vector<boost::filesystem::path> pathVector;
@@ -145,7 +147,7 @@ int main(int argc, const char** argv) {
             if (extension == ".png" || extension == ".jpg" || extension == ".jpeg") {
                 images.push_back(*iterator);
                 
-                if (process == true) {
+                if (verbose == true) {
                     std::cout << "Found " << iterator->string() << " ..." << std::endl;
                 }
                 
@@ -167,7 +169,7 @@ int main(int argc, const char** argv) {
     double totalTime = 0;
     
     for(std::vector<boost::filesystem::path>::iterator iterator = images.begin(); iterator != images.end(); ++iterator) {
-        cv::Mat image = cv::imread(iterator->string(), CV_LOAD_IMAGE_COLOR);
+        cv::Mat image = cv::imread(iterator->string());
         
         SEEDSRevisedMeanPixels seeds(image, superpixels, numberOfBins, neighborhoodSize, minimumConfidence, spatialWeight);
 
@@ -176,7 +178,7 @@ int main(int argc, const char** argv) {
         seeds.iterate(iterations);
         totalTime += timer.elapsed();
         
-        if (process == true) {
+        if (verbose == true) {
             std::cout << Integrity::countSuperpixels(seeds.getLabels(), image.rows, image.cols) << " superpixels for " << iterator->string() << " seconds ..." << std::endl;
         }
 
@@ -190,11 +192,25 @@ int main(int argc, const char** argv) {
             cv::Mat contourImage = Draw::contourImage(seeds.getLabels(), image, bgr);
             cv::imwrite(store, contourImage);
 
-            if (process == true) {
+            if (verbose == true) {
                 std::cout << "Image " << iterator->string() << " with contours saved to " << store << " ..." << std::endl;
             }
         }
 
+        if (parameters.find("labels") != parameters.end()) {
+
+            boost::filesystem::path extension = iterator->filename().extension();
+            int position = iterator->filename().string().find(extension.string());
+            std::string store = outputDir.string() + DIRECTORY_SEPARATOR + iterator->filename().string().substr(0, position) + "_labels.png";
+            
+            cv::Mat labelImage = Draw::labelImage(seeds.getLabels(), image);
+            cv::imwrite(store, labelImage);
+
+            if (verbose == true) {
+                std::cout << "Image " << iterator->string() << " with labels saved to " << store << " ..." << std::endl;
+            }
+        }
+        
         if (parameters.find("mean") != parameters.end()) {
 
             boost::filesystem::path extension = iterator->extension();
@@ -204,7 +220,7 @@ int main(int argc, const char** argv) {
             cv::Mat meanImage = Draw::meanImage(seeds.getLabels(), image);
             cv::imwrite(store, meanImage);
 
-            if (process == true) {
+            if (verbose == true) {
                 std::cout << "Image " << iterator->string() << " with mean colors saved to " << store << " ..." << std::endl;
             }
         }
@@ -216,7 +232,7 @@ int main(int argc, const char** argv) {
             boost::filesystem::path csvFile(outputDir.string() + DIRECTORY_SEPARATOR + iterator->filename().string().substr(0, position) + ".csv");
             Export::CSV(seeds.getLabels(), image.rows, image.cols, csvFile);
 
-            if (process == true) {
+            if (verbose == true) {
                 std::cout << "Labels for image " << iterator->string() << " saved in " << csvFile.string() << " ..." << std::endl;
             }
         }

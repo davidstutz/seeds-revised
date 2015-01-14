@@ -63,9 +63,25 @@
  */
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <assert.h>
 
 #ifndef SEEDS_REVISED_H
 #define	SEEDS_REVISED_H
+
+/**
+ * For OpenCV3 and OpenCV2 compatibility:
+ */
+#if CV_MAJOR_VERSION > 2
+    #define SEEDS_REVISED_OPENCV_BGR2Lab cv::COLOR_BGR2Lab
+    #define SEEDS_REVISED_OPENCV_BGR2YCrCb cv::COLOR_BGR2YCrCb
+    #define SEEDS_REVISED_OPENCV_BGR2GRAY cv::COLOR_BGR2GRAY
+    #define SEEDS_REVISED_OPENCV_GRAY2BGR cv::COLOR_GRAY2BGR
+#else
+    #define SEEDS_REVISED_OPENCV_BGR2Lab CV_BGR2Lab 
+    #define SEEDS_REVISED_OPENCV_BGR2YCrCb CV_BGR2YCrCb
+    #define SEEDS_REVISED_OPENCV_BGR2GRAY CV_BGR2GRAY
+    #define SEEDS_REVISED_OPENCV_GRAY2BGR CV_GRAY2BGR
+#endif
 
 /**
  * Can be used when in development mode. The algorithm will throw errors whenever
@@ -73,7 +89,7 @@
  * 
  * However, this will slow down the algorithm!
  */
-#define DEBUG
+// #define DEBUG
 
 /**
  * Set this flag when aiming to use uniform binning for color histograms.
@@ -91,7 +107,7 @@
  * have been changed and which pixels and blocks need to be checked again.
  * This will speed up the runtime as only few blocks and pixel updates are necessary.
  */
-// #define MEMORY
+#define MEMORY
 
 /**
  * If using MEMORY, this flag will add an additional heuristic speeding up the

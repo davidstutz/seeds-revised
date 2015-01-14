@@ -145,7 +145,7 @@ void SEEDSRevised::construct(const cv::Mat &image, int numberOfBins, int numberO
     }
     else if (channels == 3) {
         image.convertTo(*this->image, CV_8UC3);
-        cv::cvtColor(*this->image, *this->image, CV_BGR2Lab, 3);
+        cv::cvtColor(*this->image, *this->image, SEEDS_REVISED_OPENCV_BGR2Lab, 3);
     }
     
     this->height = this->image->rows;

@@ -64,74 +64,45 @@
 #include "Tools.h"
 #include "SeedsRevised.h"
 
-cv::Mat Draw::contourImage(int** givenLabels, const cv::Mat &image, int* bgr) {
+cv::Mat Draw::contourImage(int** labels, const cv::Mat &image, int* bgr) {
     
-    const int dx[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
-    const int dy[8] = {0, -1, -1, -1, 0, 1, 1, 1};
-
     cv::Mat newImage = image.clone();
     
-    int height = image.rows;
-    int width = image.cols;
-	int pixels = width*height;
+    int label = 0;
+    int labelTop = -1;
+    int labelBottom = -1;
+    int labelLeft = -1;
+    int labelRight = -1;
     
-    int* labels = new int[pixels];
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            labels[i*width + j] = givenLabels[i][j];
-        }
-    }
-    
-    std::vector<bool> istaken(pixels, false);
-    std::vector<int> contourx(pixels);
-    std::vector<int> contoury(pixels);
-    
-    int mainindex = 0;
-    int cind = 0;
-    
-    for(int j = 0; j < height; j++) {
-        for(int k = 0; k < width; k++) {
-
-            int np = 0;
-            for(int i = 0; i < 8; i++) {
-                int x = k + dx[i];
-                int y = j + dy[i];
-
-                if((x >= 0 && x < width) && (y >= 0 && y < height)) {
-                    int index = y*width + x;
-
-                    if(labels[mainindex] != labels[index]) {
-                        np++;
-                    }
-                }
+    for (int i = 0; i < newImage.rows; i++) {
+        for (int j = 0; j < newImage.cols; j++) {
+            
+            label = labels[i][j];
+            
+            labelTop = label;
+            if (i > 0) {
+                labelTop = labels[i - 1][j];
             }
-
-            if(np > 1) {
-                contourx[cind] = k;
-                contoury[cind] = j;
-                istaken[mainindex] = true;
-                cind++;
+            
+            labelBottom = label;
+            if (i < newImage.rows - 1) {
+                labelBottom = labels[i + 1][j];
             }
-
-            mainindex++;
-        }
-    }
-
-    int numboundpix = cind;
-    for(int j = 0; j < numboundpix; j++) {
-
-        for(int n = 0; n < 8; n++) {
-
-            int x = contourx[j] + dx[n];
-            int y = contoury[j] + dy[n];
-            if((x >= 0 && x < width) && (y >= 0 && y < height)) {
-
-                int ind = y*width + x;
-                if(!istaken[ind]) {
-                    newImage.at<cv::Vec3b>(contoury[j], contourx[j])[0] = bgr[0];
-                    newImage.at<cv::Vec3b>(contoury[j], contourx[j])[1] = bgr[1];
-                    newImage.at<cv::Vec3b>(contoury[j], contourx[j])[2] = bgr[2];
-                }
+            
+            labelLeft = label;
+            if (j > 0) {
+                labelLeft = labels[i][j - 1];
+            }
+            
+            labelRight = label;
+            if (j < newImage.cols - 1) {
+                labelRight = labels[i][j + 1];
+            }
+            
+            if (label != labelTop || label != labelBottom || label!= labelLeft || label != labelRight) {
+                newImage.at<cv::Vec3b>(i, j)[0] = bgr[0];
+                newImage.at<cv::Vec3b>(i, j)[1] = bgr[1];
+                newImage.at<cv::Vec3b>(i, j)[2] = bgr[2];
             }
         }
     }
@@ -184,6 +155,53 @@ cv::Mat Draw::meanImage(int** labels, const cv::Mat &image) {
             }
         }
     }
+    
+    return newImage;
+}
+
+cv::Mat Draw::labelImage(int** labels, const cv::Mat &image) {
+    cv::Mat newImage = image.clone();
+    
+    int maxLabel = 0;
+    for (int i = 0; i < newImage.rows; i++) {
+        for (int j = 0; j < newImage.cols; j++) {
+            // assert(labels[i][j] >= 0);
+            
+            if (labels[i][j] > maxLabel) {
+                maxLabel = labels[i][j];
+            }
+        }
+    }
+    
+    // Always add 1 to allow -1 as label.
+    int** colors = new int*[maxLabel + 2];
+    for (int k = 0; k < maxLabel + 2; ++k) {
+        colors[k] = new int[3];
+        colors[k][0] = rand() % 256;
+        colors[k][1] = rand() % 256;
+        colors[k][2] = rand() % 256;
+    }
+    
+    for (int i = 0; i < newImage.rows; ++i) {
+        for (int j = 0; j < newImage.cols; ++j) {
+            if (labels[i][j] >= 0) {
+                int label = labels[i][j];
+                newImage.at<cv::Vec3b>(i, j)[0] = colors[label + 1][0];
+                newImage.at<cv::Vec3b>(i, j)[1] = colors[label + 1][1];
+                newImage.at<cv::Vec3b>(i, j)[2] = colors[label + 1][2];
+            }
+            else {
+                newImage.at<cv::Vec3b>(i, j)[0] = 0;
+                newImage.at<cv::Vec3b>(i, j)[1] = 0;
+                newImage.at<cv::Vec3b>(i, j)[2] = 0;
+            }
+        }
+    }
+    
+    for (int k = 0; k < maxLabel + 1; ++k) {
+        delete[] colors[k];
+    }
+    delete[] colors;
     
     return newImage;
 }

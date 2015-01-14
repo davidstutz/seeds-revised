@@ -12,6 +12,8 @@ If you use this code, please cite [1] and [2]:
         Superpixel Segmentation using Depth Information.
         Bachelor thesis, RWTH Aachen University, Aachen, Germany, 2014.
 
+**Note:** Evaluation results are now available online (to view or download) at [http://davidstutz.de/projects/superpixelsseeds/](http://davidstutz.de/projects/superpixelsseeds/).
+
 [2] is available online at [http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/](http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/).
 
 Note that all results published in [2] are based on an extended version of the Berkeley Segmentation Benchmark [3], the Berkeley Segmentation Dataset [3] and the NYU Depth Dataset [4].
@@ -35,7 +37,7 @@ SEEDS Revised is easily compiled using [CMake](http://www.cmake.org/):
     $ git clone https://github.com/davidstutz/seeds-revised.git
     # Go to the build subfolder to generate the CMake files:
     $ cd seeds-revised/build
-    $ cmake ../
+    $ cmake ..
     # Compile the library and corresponding Command Line Interface:
     $ make
 
@@ -43,21 +45,22 @@ The binaries will be saved to `seeds-revised/bin`. The command line interface of
 
     $ ../bin/cli --help
     Allowed options:
-      --help                          produce help message
-      --input arg                     the folder to process, may contain several 
-                                      images
-      --bins arg (=5)                 number of bins used for color histograms
-      --neighborhood arg (=1)         neighborhood size used for smoothing prior
-      --confidence arg (=0.1) minimum confidence used for block update
-      --iterations arg (=2)           iterations at each level
-      --spatial-weight arg (=0.25)    spatial weight
-      --superpixels arg (=400)        desired number of supüerpixels
-      --process                       show additional information while processing
-      --csv                           save segmentation as CSV file
-      --contour                       save contour image of segmentation
-      --mean                          save mean colored image of segmentation
-      --output arg (=output)          specify the output directory (default is
-                                      ./output)
+        --help                          produce help message
+        --input arg                     the folder to process, may contain several 
+                                  images
+        --bins arg (=5)                 number of bins used for color histograms
+        --neighborhood arg (=1)         neighborhood size used for smoothing prior
+        --confidence arg (=0.100000001) minimum confidence used for block update
+        --iterations arg (=2)           iterations at each level
+        --spatial-weight arg (=0.25)    spatial weight
+        --superpixels arg (=400)        desired number of supüerpixels
+        --verbose                       show additional information while processing
+        --csv                           save segmentation as CSV file
+        --contour                       save contour image of segmentation
+        --labels                        save label image of segmentation
+        --mean                          save mean colored image of segmentation
+        --output arg (=output)          specify the output directory (default is 
+                                  ./output)
 
 ## Usage
 
@@ -68,7 +71,13 @@ The library contains two classes:
 
 Thorough documentation can be found within the code. The following example will demonstrate the basic usage of `SEEDSRevisedMeanPixels`:
 
-    cv::Mat image = cv::imread(filepath, CV_LOAD_IMAGE_COLOR);
+    #include <opencv2/opencv.hpp>
+    #include "SeedsRevised.h"
+    #include "Tools.h"
+
+    // ...
+
+    cv::Mat image = cv::imread(filepath);
     
     // Number of desired superpixels.
     int superpixels = 400;
@@ -96,8 +105,26 @@ Thorough documentation can be found within the code. The following example will 
 
     // Initializes histograms and labels.
     seeds.initialize();
-    // Runs the given number of iterations at
+    // Runs a given number of block updates and pixel updates.
     seeds.iterate(iterations);
+    
+    // Save a contour image to the following location:
+    std::string storeContours = "./contours.png";
+
+    // bgr color for contours:
+    int bgr[] = {0, 0, 204};
+    
+    // seeds.getLabels() returns a two-dimensional array containing the computed
+    // superpixel labels.
+    cv::Mat contourImage = Draw::contourImage(seeds.getLabels(), image, bgr);
+    cv::imwrite(store, contourImage);
+
+## OpenCV 3 Compatibility
+
+The implementation is compatible with OpenCV 2 and OpenCV 3 and tries to detect the used version automatically. However, as some constants changed in OpenCV3, the code may be slightly adapted when using development releases of OpenCV3. In particular, this relates to the following constants:
+
+    CV_BGR2GRAY
+    CV_BGR2Lab
 
 ## License
 
