@@ -33,7 +33,7 @@
  * 
  * The code is published under the BSD 3-Clause:
  * 
- * Copyright (c) 2014, David Stutz
+ * Copyright (c) 2014 - 2015, David Stutz
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -118,6 +118,18 @@ public:
      * @param boost::filesystem::path path path to store CSV file
      */
     static void CSV(int** labels, int rows, int cols, boost::filesystem::path path);
+    
+    /**
+     * Save the given OpenCV matrix in BSD evaluation file format, as for example:
+     * 
+     *  fprintf(fid, '%10d %10g\n', ...)
+     * 
+     * @param matrix
+     * @param precision
+     * @param path
+     */
+    template <typename T>
+    static void BSDEvaluationFile(const cv::Mat &matrix, int precision, boost::filesystem::path path);
 };
 
 /**

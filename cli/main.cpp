@@ -39,7 +39,7 @@
  * 
  * The code is published under the BSD 3-Clause:
  * 
- * Copyright (c) 2014, David Stutz
+ * Copyright (c) 2014 - 2015, David Stutz
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification,

@@ -33,7 +33,7 @@
  * 
  * The code is published under the BSD 3-Clause:
  * 
- * Copyright (c) 2014, David Stutz
+ * Copyright (c) 2014 - 2015, David Stutz
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -301,3 +301,45 @@ void Export::CSV(int** labels, int rows, int cols, boost::filesystem::path path)
     
     csvFile.close();
 }
+
+template <typename T>
+void Export::BSDEvaluationFile(const cv::Mat &matrix, int precision, boost::filesystem::path path) {
+    boost::filesystem::fstream file;
+    file.open(path.c_str(), boost::filesystem::ofstream::out);
+    
+    assert(file);
+    file.precision(precision);
+    
+    for (int i = 0; i < matrix.rows; i++) {
+        for (int j = 0; j < matrix.cols; j++) {
+            
+            T value = matrix.at<T>(i, j);
+            
+            int order = 10;
+            int fill = precision + 2;
+            while (abs(value) >= order) {
+                ++fill;
+                order *= 10;
+            }
+            
+            assert(fill >= 0);
+            assert(fill <= 10);
+            
+            for (int k = 0; k < 10 - fill; ++k) {
+                file << " ";
+            }
+            
+            file << matrix.at<T>(i, j);
+            
+            if (j < matrix.cols - 1) {
+                file << " ";
+            }
+        }
+        
+        file << "\n";
+    }
+    
+    file.close();
+}
+
+template void Export::BSDEvaluationFile<double>(const cv::Mat&, int, boost::filesystem::path);
