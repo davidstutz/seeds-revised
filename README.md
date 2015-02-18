@@ -1,5 +1,7 @@
 # SEEDS Revised
 
+**Update:** SEEDS Revised is also available as part of [Superpixels Revisited](https://github.com/davidstutz/superpixels-revisited), a library providing command line tools for seven state-of-the-art superpixel algorithms.
+
 Implementation of the superpixel algorithm called SEEDS [1] described in
 
     [1] M. van den Bergh, X. Boix, G. Roig, B. de Capitani, L. van Gool.
@@ -14,7 +16,7 @@ If you use this code, please cite [1] and [2]:
 
 **Note:** Evaluation results are now available online (to view or download) at [http://davidstutz.de/projects/superpixelsseeds/](http://davidstutz.de/projects/superpixelsseeds/).
 
-[2] is available online at [http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/](http://davidstutz.de/bachelor-thesis-superpixel-segmentation-using-depth-information/).
+[2] is available online at [http://davidstutz.de/projects/superpixelsseeds/](http://davidstutz.de/projects/superpixelsseeds/).
 
 Note that all results published in [2] are based on an extended version of the Berkeley Segmentation Benchmark [3], the Berkeley Segmentation Dataset [3] and the NYU Depth Dataset [4].
 
