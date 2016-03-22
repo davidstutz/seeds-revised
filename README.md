@@ -14,16 +14,22 @@ If you use this code, please cite [1] and [2]:
         Superpixel Segmentation using Depth Information.
         Bachelor thesis, RWTH Aachen University, Aachen, Germany, 2014.
 
+Also consider citing [3]:
+
+	[3] D. Stutz.
+		Superpixel Segmentation: An Evaluation.
+		Pattern Recognition (J. Gall, P. Gehler, B. Leibe (Eds.)), Lecture Notes in Computer Science, vol. 9358, pages 555 - 562, 2015.
+		
 **Note:** Evaluation results are now available online (to view or download) at [http://davidstutz.de/projects/superpixelsseeds/](http://davidstutz.de/projects/superpixelsseeds/).
 
 [2] is available online at [http://davidstutz.de/projects/superpixelsseeds/](http://davidstutz.de/projects/superpixelsseeds/).
 
-Note that all results published in [2] are based on an extended version of the Berkeley Segmentation Benchmark [3], the Berkeley Segmentation Dataset [3] and the NYU Depth Dataset [4].
+Note that all results published in [2] are based on an extended version of the Berkeley Segmentation Benchmark [4], the Berkeley Segmentation Dataset [4] and the NYU Depth Dataset [5].
 
-    [3] P. Arbeláez, M. Maire, C. Fowlkes, J. Malik.
+    [4] P. Arbeláez, M. Maire, C. Fowlkes, J. Malik.
         Contour detection and hierarchical image segmentation.
         Transactions on Pattern Analysis and Machine Intelligence, 33(5):898–916, 2011.
-    [4] N. Silberman, D. Hoiem, P. Kohli, R. Fergus.
+    [5] N. Silberman, D. Hoiem, P. Kohli, R. Fergus.
         Indoor segmentation and support inference from RGBD images.
         Proceedings of the European Conference on Computer Vision, pages 746–760, 2012.
 
