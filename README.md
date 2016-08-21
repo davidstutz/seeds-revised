@@ -1,5 +1,7 @@
 # SEEDS Revised
 
+[![Build Status](https://travis-ci.org/davidstutz/seeds-revised.svg?branch=master)](https://travis-ci.org/davidstutz/seeds-revised)
+
 **Update:** SEEDS Revised is also available as part of [Superpixels Revisited](https://github.com/davidstutz/superpixels-revisited), a library providing command line tools for seven state-of-the-art superpixel algorithms.
 
 Implementation of the superpixel algorithm called SEEDS [1] described in
@@ -40,9 +42,11 @@ The extended version of the Berkeley Segmentation Benchmark is available on GitH
 ## Compile
 
 SEEDS Revised is based on [OpenCV](http://opencv.org/) (see [here](http://docs.opencv.org/doc/tutorials/introduction/linux_install/linux_install.html#linux-installation) how to install OpenCV on Linux) and [Boost](http://www.boost.org/) and easily compiled using [CMake](http://www.cmake.org/):
-
+    
     # Prerequisites assuming OpenCV is already installed.
     sudo apt-get install build-essential cmake libboost-dev-all
+    # Install OpenCV using the link above or:
+    sudo apt-get install libopencv-dev
     # Clone the repository:
     $ git clone https://github.com/davidstutz/seeds-revised.git
     # Go to the build subfolder to generate the CMake files:
