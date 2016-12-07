@@ -57,7 +57,7 @@ SEEDS Revised is based on [OpenCV](http://opencv.org/) (see [here](http://docs.o
 
 The binaries will be saved to `seeds-revised/bin`. The command line interface offers the following options:
 
-    $ ../bin/cli --help
+    $ ../bin/reseeds_cli --help
     Allowed options:
         --help                          produce help message
         --input arg                     the folder to process, may contain several 
