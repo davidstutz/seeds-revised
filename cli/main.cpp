@@ -171,7 +171,7 @@ int main(int argc, const char** argv) {
     for(std::vector<boost::filesystem::path>::iterator iterator = images.begin(); iterator != images.end(); ++iterator) {
         cv::Mat image = cv::imread(iterator->string());
         
-        SEEDSRevisedMeanPixels seeds(image, superpixels, numberOfBins, neighborhoodSize, minimumConfidence, spatialWeight);
+        SEEDSRevisedMeanPixels seeds(image, superpixels, numberOfBins, neighborhoodSize, minimumConfidence, spatialWeight, SEEDSRevised::BGR);
 
         timer.restart();
         seeds.initialize();

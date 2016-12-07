@@ -66,11 +66,11 @@
 #include <math.h>
 #include <string>
 
-SEEDSRevised::SEEDSRevised(const cv::Mat &image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins, int neighborhoodSize, float minimumConfidence) {
-    this->construct(image, numberOfBins, numberOfLevels, minimumBlockWidth, minimumBlockHeight, neighborhoodSize, minimumConfidence);
+SEEDSRevised::SEEDSRevised(const cv::Mat &image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins, int neighborhoodSize, float minimumConfidence, int colorSpace) {
+    this->construct(image, numberOfBins, numberOfLevels, minimumBlockWidth, minimumBlockHeight, neighborhoodSize, minimumConfidence, colorSpace);
 }
 
-SEEDSRevised::SEEDSRevised(const cv::Mat &image, int desiredNumberOfSuperpixels, int numberOfBins, int neighborhoodSize, float minimumConfidence) {
+SEEDSRevised::SEEDSRevised(const cv::Mat &image, int desiredNumberOfSuperpixels, int numberOfBins, int neighborhoodSize, float minimumConfidence, int colorSpace) {
     
     int width = image.cols;
     int height = image.rows;
@@ -108,16 +108,17 @@ SEEDSRevised::SEEDSRevised(const cv::Mat &image, int desiredNumberOfSuperpixels,
     assert(minBlockWidth > 0);
     assert(minBlockHeight > 0);
     
-    this->construct(image, numberOfBins, minLevels, minBlockWidth, minBlockHeight, neighborhoodSize, minimumConfidence);
+    this->construct(image, numberOfBins, minLevels, minBlockWidth, minBlockHeight, neighborhoodSize, minimumConfidence, colorSpace);
 }
 
-void SEEDSRevised::construct(const cv::Mat &image, int numberOfBins, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int neighborhoodSize, float minimumConfidence) {
+void SEEDSRevised::construct(const cv::Mat &image, int numberOfBins, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int neighborhoodSize, float minimumConfidence, int colorSpace) {
     this->numberOfLevels = numberOfLevels;
     this->minimumBlockWidth = minimumBlockWidth;
     this->minimumBlockHeight = minimumBlockHeight;
     this->numberOfBins = numberOfBins;
     this->minimumConfidence = minimumConfidence;
     this->neighborhoodSize = neighborhoodSize;
+    this->colorSpace = colorSpace;
     
     this->initializedImage = false;
     this->initializedLabels = false;
@@ -237,6 +238,28 @@ void SEEDSRevised::setNumberOfBins(int numberOfBins) {
 }
 
 void SEEDSRevised::initialize() {
+    switch (this->colorSpace) {
+        default:
+        case BGR:
+            // Nothing to do.
+            break;
+        case LAB:
+            cv::cvtColor(*this->image, *this->image, SEEDS_REVISED_OPENCV_BGR2Lab);
+            break;
+        case HSV:
+            cv::cvtColor(*this->image, *this->image, SEEDS_REVISED_OPENCV_BGR2HSV);
+            break;
+        case LUV:
+            cv::cvtColor(*this->image, *this->image, SEEDS_REVISED_OPENCV_BGR2Luv);
+            break;
+        case XYZ:
+            cv::cvtColor(*this->image, *this->image, SEEDS_REVISED_OPENCV_BGR2XYZ);
+            break;
+        case YCRCB:
+            cv::cvtColor(*this->image, *this->image, SEEDS_REVISED_OPENCV_BGR2YCrCb);
+            break;
+    }
+    
     this->initializeLabels();
     this->initializeHistograms();
 }
@@ -991,7 +1014,7 @@ int SEEDSRevised::getNumberOfSuperpixels() const {
     return this->getBlockHeightNumber(this->numberOfLevels)*this->getBlockWidthNumber(this->numberOfLevels);
 }
 
-SEEDSRevisedMeanPixels::SEEDSRevisedMeanPixels(const cv::Mat& image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins, int neighborhoodSize, float minimumConfidence, float spatialWeight) : SEEDSRevised(image, numberOfBins, numberOfLevels, minimumBlockWidth, minimumBlockHeight, neighborhoodSize, minimumConfidence) {
+SEEDSRevisedMeanPixels::SEEDSRevisedMeanPixels(const cv::Mat& image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins, int neighborhoodSize, float minimumConfidence, float spatialWeight, int colorSpace) : SEEDSRevised(image, numberOfBins, numberOfLevels, minimumBlockWidth, minimumBlockHeight, neighborhoodSize, minimumConfidence, colorSpace) {
     assert(spatialWeight >= 0);
     assert(spatialWeight <= 1);
     
@@ -1000,7 +1023,7 @@ SEEDSRevisedMeanPixels::SEEDSRevisedMeanPixels(const cv::Mat& image, int numberO
     this->spatialNormalization = 1;
 }
 
-SEEDSRevisedMeanPixels::SEEDSRevisedMeanPixels(const cv::Mat& image, int desiredNumberOfSuperpixels, int numberOfBins, int neighborhoodSize, float minimumConfidence, float spatialWeight) : SEEDSRevised(image, desiredNumberOfSuperpixels, numberOfBins, neighborhoodSize, minimumConfidence) {
+SEEDSRevisedMeanPixels::SEEDSRevisedMeanPixels(const cv::Mat& image, int desiredNumberOfSuperpixels, int numberOfBins, int neighborhoodSize, float minimumConfidence, float spatialWeight, int colorSpace) : SEEDSRevised(image, desiredNumberOfSuperpixels, numberOfBins, neighborhoodSize, minimumConfidence, colorSpace) {
     assert(spatialWeight >= 0);
     assert(spatialWeight <= 1);
     

@@ -76,11 +76,19 @@
     #define SEEDS_REVISED_OPENCV_BGR2YCrCb cv::COLOR_BGR2YCrCb
     #define SEEDS_REVISED_OPENCV_BGR2GRAY cv::COLOR_BGR2GRAY
     #define SEEDS_REVISED_OPENCV_GRAY2BGR cv::COLOR_GRAY2BGR
+    #define SEEDS_REVISED_OPENCV_BGR2XYZ cv::COLOR_BGR2XYZ
+    #define SEEDS_REVISED_OPENCV_BGR2HSV cv::COLOR_BGR2HSV
+    #define SEEDS_REVISED_OPENCV_BGR2Lab cv::COLOR_BGR2Lab
+    #define SEEDS_REVISED_OPENCV_BGR2Luv cv::COLOR_BGR2Luv
 #else
-    #define SEEDS_REVISED_OPENCV_BGR2Lab CV_BGR2Lab 
+    #define SEEDS_REVISED_OPENCV_BGR2Lab CV_BGR2Lab
     #define SEEDS_REVISED_OPENCV_BGR2YCrCb CV_BGR2YCrCb
     #define SEEDS_REVISED_OPENCV_BGR2GRAY CV_BGR2GRAY
     #define SEEDS_REVISED_OPENCV_GRAY2BGR CV_GRAY2BGR
+    #define SEEDS_REVISED_OPENCV_BGR2XYZ CV_BGR2XYZ
+    #define SEEDS_REVISED_OPENCV_BGR2HSV CV_BGR2HSV
+    #define SEEDS_REVISED_OPENCV_BGR2Lab CV_BGR2Lab
+    #define SEEDS_REVISED_OPENCV_BGR2Luv CV_BGR2Luv
 #endif
 
 /**
@@ -129,6 +137,16 @@ class SEEDSRevised {
 public:
     
     /**
+     * Color spaces that may be used (default is BGR).
+     */
+    static const int BGR = 0;
+    static const int LAB = 1;
+    static const int HSV = 2;
+    static const int LUV = 3;
+    static const int XYZ = 4;
+    static const int YCRCB = 5;
+    
+    /**
      * Constructor, instantiates a new SEEDSRevised object with the given parameters.
      * 
      * The main parameters are:
@@ -164,8 +182,9 @@ public:
      * @param int numberOfBins number of bins to use for the color histograms
      * @param int neighborhoodSize the (2*neighborhoodSize + 2) x (2*neighborhoodSize + 1) region around a pixel used for the smoothing prior
      * @param float minimumConfidence minimum difference in histogram intersection needed to accept a block update
+     * @param int colorSpace color space to use, see constants defined at the beginning of the class
      */
-    SEEDSRevised(const cv::Mat& image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1);
+    SEEDSRevised(const cv::Mat& image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1, int colorSpace = BGR);
 
     /**
      * Constructor, instantiates a new SEEDSRevised object with the given parameters.
@@ -187,8 +206,9 @@ public:
      * @param int numberOfBins number of bins for the color histograms
      * @param int neighborhoodSize the (2*neighborhoodSize + 2) x (2*neighborhoodSize + 1) region around a pixel used for the smoothing prior
      * @param float minimumConfidence minimum difference in histogram intersection needed to accept a block update
+     * @param int colorSpace color space to use, see constants defined at the beginning of the class
      */
-    SEEDSRevised(const cv::Mat& image, int desiredNumberOfSuperpixels, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1);
+    SEEDSRevised(const cv::Mat& image, int desiredNumberOfSuperpixels, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1, int colorSpace = BGR);
 
     /**
      * Destructor removes all initialized arrays and objects, among which are
@@ -355,7 +375,7 @@ protected:
     /**
      * Proxy for multiple constructors.
      */
-    void construct(const cv::Mat &image, int numberOfBins, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int neighborhoodSize, float minimumConfidence);
+    void construct(const cv::Mat &image, int numberOfBins, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int neighborhoodSize, float minimumConfidence, int colorSpace);
     
     /**
      * Initialize labels. In the end, each pixel will be assigned a label. During block updates,
@@ -952,7 +972,11 @@ protected:
      * to the power of three bins.
      */
     int numberOfBins;
-
+    /**
+     * The color space to use, see constants at the beginning of the class.
+     */
+    int colorSpace;
+    
     /**
      * The current labels: At pixel level these will be the current superpixels,
      * at a block level, these correspond to block labelings.
@@ -1078,8 +1102,9 @@ public:
      * @param int neighborhoodSize the (2*neighborhoodSize + 2) x (2*neighborhoodSize + 1) region around a pixel used for the smoothing prior
      * @param float minimumConfidence minimum difference in histogram intersection needed to accept a block update
      * @param float spatialWeight weight of spatial term for compact superpixels, float between 0 and 1
+     * @param int colorSpace color space to use, see constants defined at the beginning of the class
      */
-    SEEDSRevisedMeanPixels(const cv::Mat& image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1, float spatialWeight = 0.25);
+    SEEDSRevisedMeanPixels(const cv::Mat& image, int numberOfLevels, int minimumBlockWidth, int minimumBlockHeight, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1, float spatialWeight = 0.25, int colorSpace = BGR);
 
     /**
      * Constructor, instantiates a new SEEDSRevisedMeanPixels object with the given parameters.
@@ -1102,8 +1127,9 @@ public:
      * @param int neighborhoodSize the (2*neighborhoodSize + 2) x (2*neighborhoodSize + 1) region around a pixel used for the smoothing prior
      * @param float minimumConfidence minimum difference in histogram intersection needed to accept a block update
      * @param float spatialWeight weight of spatial term for compact superpixels, float between 0 and 1
+     * @param int colorSpace color space to use, see constants defined at the beginning of the class
      */
-    SEEDSRevisedMeanPixels(const cv::Mat& image, int desiredNumberOfSuperpixels, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1, float spatialWeight = 0.25);
+    SEEDSRevisedMeanPixels(const cv::Mat& image, int desiredNumberOfSuperpixels, int numberOfBins = 5, int neighborhoodSize = 1, float minimumConfidence = 0.1, float spatialWeight = 0.25, int colorSpace = BGR);
     
     /**
      * Destructor.
