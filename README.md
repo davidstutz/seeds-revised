@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/davidstutz/seeds-revised.svg?branch=master)](https://travis-ci.org/davidstutz/seeds-revised)
 
-**Update:** SEEDS Revised is also part of the [davidstutz/superpixel-benchmark](https://github.com/davidstutz/superpixel-benchmark).
+**Update:** SEEDS Revised is also part of [davidstutz/superpixel-benchmark](https://github.com/davidstutz/superpixel-benchmark).
 
 **Update:** SEEDS Revised is also available as part of [Superpixels Revisited](https://github.com/davidstutz/superpixels-revisited), a library providing command line tools for seven state-of-the-art superpixel algorithms.
 
